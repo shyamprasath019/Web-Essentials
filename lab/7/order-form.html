@@ -1,0 +1,13 @@
+<div class="container order-form">
+    <h1>Order Form</h1>
+    <div class="form-group">
+        <label for="products" class="form-label">Products:</label>
+        <select multiple class="form-control" id="products" ng-model="selectedProducts" ng-options="product for product in products">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" ng-model="quantity">
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="addToCart()">Add to Cart</button>
+</div>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="switchableViewApp">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Switchable Grid</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container {
+      max-width: 600px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .btn-group {
+      margin-bottom: 20px;
+    }
+
+    .view-button {
+      margin-right: 10px;
+    }
+
+    .card {
+      height: 100%;
+    }
+
+    .list-group-item {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div ng-controller="SwitchableGridController as gridCtrl" class="container mt-5">
+    <h1>Switchable Grid</h1>
+    <div class="btn-group">
+      <button class="btn btn-primary view-button" ng-click="gridCtrl.switchView('grid')">Grid View</button>
+      <button class="btn btn-primary view-button" ng-click="gridCtrl.switchView('list')">List View</button>
+    </div>
+    <div ng-show="gridCtrl.currentView === 'grid'" class="row">
+      <div class="col-md-4 mb-3" ng-repeat="item in gridCtrl.items">
+        <div class="card">
+          <div class="card-body">
+            {{ item }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-show="gridCtrl.currentView === 'list'">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="item in gridCtrl.items">{{ item }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    angular.module('switchableViewApp', [])
+      .controller('SwitchableGridController', function() {
+        var gridCtrl = this;
+        gridCtrl.items = [
+          'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'
+        ];
+        gridCtrl.currentView = 'grid';
+        gridCtrl.switchView = function(view) {
+          gridCtrl.currentView = view;
+        };
+      });
+  </script>
+</body>
+</html>

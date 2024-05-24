@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="orderFormApp">
+<head>
+ <meta charset="UTF-8">
+ <title>Order Form</title>
+ <link rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+>
+<style>
+ body, html {
+ height: 100%;
+ }
+ .container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100%;
+ }
+ .order-form {
+     max-width: 400px;
+     width: 100%;
+ }
+ .form-group {
+     margin-bottom: 20px;
+ }
+ .form-label {
+     font-weight: bold;
+ }
+ .list-group-item {
+     border: none;
+     background-color: transparent;
+ }
+ .cart-item {
+     border-top: 1px solid #dee2e6;
+     padding: 10px 0;
+ }
+ .total-label {
+     font-weight: bold;
+     font-size: 18px;
+ }
+ .hide-placeholder {
+     color: transparent;
+ }
+</style>
+</head>
+<body>
+ <div ng-controller="OrderFormController as formCtrl" class="container">
+ <form class="order-form">
+ <div class="form-group">
+ <label for="products" class="form-label">Products:</label>
+ <select multiple class="form-control" id="products" ng-model="formCtrl.selectedProducts" ng-options="product as product.name for product in formCtrl.products">
+ </select>
+ </div>
+ <div class="form-group">
+ <label for="quantity" class="form-label">Quantity:</label>
+ <input type="number" class="form-control" id="quantity" ng-model="formCtrl.quantity">
+ </div>
+ <button type="button" class="btn btn-primary" ng-click="formCtrl.addToCart()">Add to Cart</button>
+ <div class="form-group mt-3">
+ <label class="form-label">Cart:</label>
+ <ul class="list-group">
+ <li class="list-group-item cart-item" ng-repeat="item in formCtrl.cart">
+ <span ng-if="item.product.name">{{ item.product.name }} - Quantity: {{ item.quantity }}</span>
+ <span ng-if="item.total !== undefined" class="float-right">$ {{ item.total }}</span>
+ </li>
+ </ul>
+ <p class="total-label" ng-if="formCtrl.grandTotal">Grand Total: $ {{ formCtrl.grandTotal }}</p>
+ <p class="total-label hide-placeholder" ng-if="!formCtrl.grandTotal">Grand Total: $</p>
+ </div>
+ </form>
+ </div>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></scri
+pt>
+ <script>
+ angular.module('orderFormApp', [])
+ .controller('OrderFormController', function() {
+     var formCtrl = this;
+     formCtrl.products = [
+         { name: 'Web Essentials', cost: 100 },
+         { name: 'Web Hosting', cost: 50 },
+         { name: 'Domain Registration', cost: 20 }
+     ];
+     formCtrl.selectedProducts = [];
+     formCtrl.quantity = "";
+     formCtrl.cart = [];
+     formCtrl.grandTotal = 0;
+     // Function to add item to cart
+     formCtrl.addToCart = function() {
+         if (formCtrl.selectedProducts.length && formCtrl.quantity) {
+             angular.forEach(formCtrl.selectedProducts, function(product) {
+                 var total = product.cost * formCtrl.quantity;
+                 formCtrl.cart.push({ product: product, quantity: formCtrl.quantity, total: total });
+                 formCtrl.grandTotal += total;
+             });
+             // Clear input fields after adding to cart
+             formCtrl.selectedProducts = [];
+             formCtrl.quantity = "";
+         } else {
+             console.log("Please select product(s) and enter a quantity.");
+         }
+     };
+ });
+ </script>
+</body>
+</html>

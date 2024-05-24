@@ -1,0 +1,15 @@
+<div class="container inline-editor">
+    <h1>Inline Editor</h1>
+    <div class="title-container">
+        <h1 class="title" ng-hide="ctrl.editingTitle">{{ ctrl.title }}</h1>
+        <div ng-show="ctrl.editingTitle" class="input-group">
+            <input type="text" class="form-control" ng-model="ctrl.title" id="title" aria-label="Title" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" ng-click="ctrl.saveField()"><i class="fas fa-check"></i></button>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-outline-secondary edit-btn mt-3" type="button" ng-click="ctrl.editField()">
+        <i class="fas fa-pencil-alt"></i> Edit Title
+    </button>
+</div>
